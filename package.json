@@ -4,6 +4,9 @@
   "description": ":whale: Creating an API using docker for PostgreeSQL, and learning SOLID.",
   "main": "index.js",
   "scripts": {
+    "start:dev": "tsx watch src/server.ts",
+    "start": "node build/server.js",
+    "build": "tsup src --out-dir build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
