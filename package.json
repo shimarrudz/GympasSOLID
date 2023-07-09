@@ -1,0 +1,21 @@
+{
+  "name": "gympassolid",
+  "version": "1.0.0",
+  "description": ":whale: Creating an API using docker for PostgreeSQL, and learning SOLID.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.4.1",
+    "tsup": "^7.1.0",
+    "tsx": "^3.12.7",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "fastify": "^4.19.2"
+  }
+}
