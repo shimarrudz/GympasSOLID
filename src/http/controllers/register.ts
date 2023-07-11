@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { hash } from 'bcryptjs'
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { prisma } from '../../lib/prisma'
 
@@ -11,6 +12,7 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
 
   const { name, email, password } = registerBodySchema.parse(request.body)
 
+  const password_hash = await hash(password)
   await prisma.user.create({
     data: {
       name,

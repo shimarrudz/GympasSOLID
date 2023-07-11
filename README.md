@@ -26,6 +26,7 @@
 - [] The gym can only be registered by adminstrators
 
 ## Unfunctional Requirements
+
 - [] User's password needs to be encrypted
 - [] Aplication data needs to be persisted on PostgreeSQL
 - [] All data lists needs to be paginated with 20 itens per page
