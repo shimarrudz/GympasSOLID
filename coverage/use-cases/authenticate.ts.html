@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for use-cases/register.ts</title>
+    <title>Code coverage report for use-cases/authenticate.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -19,7 +19,7 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">use-cases</a> register.ts</h1>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">use-cases</a> authenticate.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
@@ -32,7 +32,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
@@ -118,61 +118,61 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { hash } from 'bcryptjs'
-import { UsersRepository } from '../repositories/users-repository'
-import { UserAlreadyExistsError } from './errors/user-already-exists'
-import { User } from '@prisma/client'
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { compare } from "bcryptjs";
+import { UsersRepository } from "../repositories/users-repository";
+import { InvalidCredentialsError } from "./errors/invalid-credentials-error";
+import { User } from "@prisma/client";
 &nbsp;
-export interface RegisterUseCaseRequest {
-  name: string
-  email: string
-  password: string
+interface AuthenticateUseCaseRequest {
+  email: string;
+  password: string;
 }
 &nbsp;
-export interface RegisterUseCaseResponse {
-  user: User
+interface AuthenticateUseCaseResponse {
+    user: User
 }
 &nbsp;
-export class RegisterUseCase {
+export class AuthenticateUseCase {
   constructor(private usersRepository: UsersRepository) {}
-  async execute({ name, email, password }: RegisterUseCaseRequest) {
-    const password_hash = await hash(password, 6)
 &nbsp;
-    const userWithSameEmail = await this.usersRepository.findByEmail(email)    
+  async execute({ email, password }: AuthenticateUseCaseRequest): Promise&lt;AuthenticateUseCaseResponse&gt;{
+    const user = await this.usersRepository.findByEmail(email)
 &nbsp;
-    if (userWithSameEmail) {
-      throw new UserAlreadyExistsError
+    if (!user) {
+        throw new InvalidCredentialsError
     }
 &nbsp;
-    const user = await this.usersRepository.create({
-      name,
-      email,
-      password_hash,
-    })
+    const doesPassordMatches = await compare(password, user.password_hash)
+&nbsp;
+    if (!doesPassordMatches) {
+        throw new InvalidCredentialsError()
+    }
 &nbsp;
     return {
-      user,
+        user,
     }
+&nbsp;
   }
+&nbsp;
 }
 &nbsp;</pre></td></tr></table></pre>
 
