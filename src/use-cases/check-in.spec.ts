@@ -19,8 +19,8 @@ describe('Check-in Use Case', () => {
         title: 'JavaScript Gym',
         phone: '',
         description: '',
-        latitude: new Decimal(0),
-        longitude: new Decimal(0)
+        latitude: new Decimal(-23.6514718),
+        longitude: new Decimal(-46.5275789)
     })
 
     vi.useFakeTimers()
@@ -34,8 +34,8 @@ describe('Check-in Use Case', () => {
         const { checkIn } = await sut.execute({
             gymId: 'gym-01',
             userId: 'user-01',
-            userLatitude: 0,
-            userLongititude: 0
+            userLatitude: -23.6514718,
+            userLongititude: -46.5275789
         })
     
         expect(checkIn.id).toEqual(expect.any(String))
@@ -47,15 +47,15 @@ describe('Check-in Use Case', () => {
         await sut.execute({
             gymId: 'gym-01',
             userId: 'user-01',
-            userLatitude: 0,
-            userLongititude: 0
+            userLatitude: -23.6514718,
+            userLongititude: -46.5275789
         })
         
         await expect(() => sut.execute({
             gymId: 'gym-01',
             userId: 'user-01',
-            userLatitude: 0,
-            userLongititude: 0
+            userLatitude: -23.6514718,
+            userLongititude: -46.5275789
         })).rejects.toBeInstanceOf(Error)
     })
 
@@ -64,8 +64,8 @@ describe('Check-in Use Case', () => {
         const { checkIn } = await sut.execute({
             gymId: 'gym-01',
             userId: 'user-01',
-            userLatitude: 0,
-            userLongititude: 0
+            userLatitude: -23.6514718,
+            userLongititude: -46.5275789
         })
 
         expect(checkIn.id).toEqual(expect.any(String))
