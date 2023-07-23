@@ -33,6 +33,8 @@ export class CheckInUseCase {
 
     }
 
+    
+
     const checkInOnSameDate = await this.checkInRepository.findByUserIdOnDate(
       userId,
       new Date(),
