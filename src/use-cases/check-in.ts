@@ -1,30 +1,30 @@
-import { UsersRepository } from "../repositories/users-repository";
-import { CheckIn, User } from "@prisma/client";
-import { ResourceNotFound } from "./errors/resource-not-found-error";
+import { CheckIn } from "@prisma/client";
+import { CheckInsRepository } from "../repositories/check-in-repository";
 
-interface CheckInUseCaseUseCaseRequest {
+interface CheckInUseCaseRequest {
     userId: string
     gymId: string
 }
 
-interface CheckInUseCaseUseCaseResponse {
+interface CheckInUseCaseResponse {
     checkIn: CheckIn
 }
 
-export class CheckInUseCaseUseCase {
-  constructor(private usersRepository: UsersRepository) {}
+export class CheckInUseCase {
+  constructor(private checkInRepository: CheckInsRepository) {}
 
-  async execute({ userId }: CheckInUseCaseUseCaseRequest): Promise<GetUserProfileUseCaseResponse>{
-    const user = await this.usersRepository.findById(userId)
-
-    if (!user) {
-        throw new ResourceNotFound
-    }
+  async execute({ 
+    userId,
+    gymId,
+   }: CheckInUseCaseRequest): Promise<CheckInUseCaseResponse> {
+    const checkIn = await this.checkInRepository.create({
+      gym_id: gymId,
+      user_id: userId,
+    })
 
     return {
-        user,
+      checkIn,
     }
-
   }
 
 }
