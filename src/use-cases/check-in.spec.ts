@@ -19,4 +19,16 @@ beforeEach(() => {
     
         expect(checkIn.id).toEqual(expect.any(String))
     })
+
+    it('should not be able to check in twice in the same day', async () => {
+        await sut.execute({
+            gymId: 'gym-01',
+            userId: 'user-01',
+        })
+        
+        expect(() => sut.execute({
+            gymId: 'gym-01',
+            userId: 'user-01',
+        })).rejects.toBeInstanceOf(Error)
+    })
 })
