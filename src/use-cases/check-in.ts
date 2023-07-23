@@ -23,6 +23,8 @@ export class CheckInUseCase {
   async execute({ 
     userId,
     gymId,
+    userLatitude,
+    userLongititude,
    }: CheckInUseCaseRequest): Promise<CheckInUseCaseResponse> {
     const gym = await this.gymsRepository.findById(gymId)
 

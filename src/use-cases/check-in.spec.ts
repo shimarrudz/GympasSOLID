@@ -2,7 +2,7 @@ import { expect, describe, it, beforeEach, afterEach, vi } from 'vitest'
 import { CheckInUseCase } from './check-in'
 import { InMemoryCheckInsRepository } from '../repositories/in-memory-user-repository/in-memory-check-ins-repository'
 import { InMemoryGymsRepository } from '../repositories/in-memory-user-repository/in-memory-gyms-repository'
-import { Decimal } from '@prisma/client/runtime'
+import { Decimal } from '@prisma/client/runtime/library'
 
 let checkInsRepository: InMemoryCheckInsRepository
 let gymsRepository: InMemoryGymsRepository
@@ -67,7 +67,26 @@ describe('Check-in Use Case', () => {
             userLatitude: 0,
             userLongititude: 0
         })
-        
+
         expect(checkIn.id).toEqual(expect.any(String))
     })
-})
+
+    it('should not be able to check in on distant gym', async () => {
+        gymsRepository.items.push({
+            id: 'gym-02',
+            title: 'JavaScript Gym',
+            phone: '',
+            description: '',
+            latitude: new Decimal(-23.6514718),
+            longitude: new Decimal(-46.5275789)
+        })
+       
+        await expect(()=> sut.execute({
+            gymId: 'gym-02',
+            userId: 'user-02',
+            userLatitude: -23.6488474,
+            userLongititude: -46.5263714
+        }),
+        ).rejects.toBeInstanceOf(Error)
+    })
+});
