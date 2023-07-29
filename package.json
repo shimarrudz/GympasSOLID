@@ -1,41 +1,57 @@
 {
-  "name": "gympassolid",
+  "name": "gympass",
   "version": "1.0.0",
-  "description": ":whale: Creating an API using docker for PostgreeSQL, and learning SOLID.",
+  "description": "Gympass é uma plataforma de fitness corporativo que proporciona acesso a uma rede global de academias e estúdios de fitness. Com um único plano de assinatura, os usuários podem frequentar qualquer academia ou estúdio na rede do Gympass, em várias cidades e países. A empresa tem parcerias com as empresas para oferecer o serviço como um benefício para os funcionários, com o objetivo de incentivar a saúde e o bem-estar.",
   "main": "index.js",
   "scripts": {
-    "start:dev": "tsx watch src/server.ts",
     "start": "node build/server.js",
+    "start:dev": "tsx watch src/server.ts",
     "build": "tsup src --out-dir build",
-    "test": "vitest run",
-    "test:watch": "vitest",
+    "test:create-prisma-environment": "npm link ./prisma/vitest-environment-prisma",
+    "test:install-prisma-environment": "npm link vitest-environment-prisma",
+    "test": "vitest run --dir src/use-cases",
+    "test:watch": "vitest --dir src/use-cases",
+    "pretest:e2e": "run-s test:create-prisma-environment test:install-prisma-environment",
+    "test:e2e": "vitest run --dir src/http",
+    "test:e2e:watch": "vitest --dir src/http",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kayke-Fujinaka/Gympass.git"
+  },
   "keywords": [],
-  "author": "",
+  "author": "Kayke-Fujinaka",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kayke-Fujinaka/Gympass/issues"
+  },
+  "homepage": "https://github.com/Kayke-Fujinaka/Gympass#readme",
   "devDependencies": {
-    "@rocketseat/eslint-config": "^1.3.0",
-    "@types/bcryptjs": "^2.4.2",
-    "@types/node": "^20.4.1",
-    "@vitest/coverage-v8": "^0.33.0",
-    "eslint": "^8.44.0",
-    "prisma": "^4.16.2",
-    "tsup": "^7.1.0",
-    "tsx": "^3.12.7",
-    "typescript": "^5.1.6",
-    "vite-tsconfig-paths": "^4.2.0",
-    "vitest": "^0.33.0"
+    "@rocketseat/eslint-config": "1.2.0",
+    "@types/bcryptjs": "2.4.2",
+    "@types/node": "20.2.5",
+    "@types/supertest": "2.0.12",
+    "@vitest/coverage-c8": "0.31.4",
+    "@vitest/ui": "0.31.4",
+    "prisma": "4.15.0",
+    "supertest": "6.3.3",
+    "tsup": "6.7.0",
+    "tsx": "3.12.7",
+    "typescript": "5.0.4",
+    "vite-tsconfig-paths": "4.2.0",
+    "vitest": "0.31.4"
   },
   "dependencies": {
-    "@prisma/client": "^4.16.2",
-    "@vitest/coverage-c8": "^0.33.0",
-    "@vitest/ui": "^0.33.0",
-    "bcryptjs": "^2.4.3",
-    "dayjs": "^1.11.9",
-    "dotenv": "^16.3.1",
-    "fastify": "^4.19.2",
-    "zod": "^3.21.4"
+    "@fastify/cookie": "8.3.0",
+    "@fastify/jwt": "7.0.0",
+    "@prisma/client": "4.15.0",
+    "bcryptjs": "2.4.3",
+    "dayjs": "1.11.8",
+    "dotenv": "16.0.3",
+    "fastify": "4.17.0",
+    "npm-run-all": "4.1.5",
+    "zod": "3.21.4"
   }
 }
