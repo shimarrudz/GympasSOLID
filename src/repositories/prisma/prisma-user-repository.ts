@@ -1,33 +1,35 @@
-import { prisma } from "../../lib/prisma";
-import { Prisma } from "@prisma/client";
-import { UsersRepository } from "../users-repository";
+import { Prisma } from '@prisma/client'
+
+import { prisma } from '@/lib/prisma'
+import { UsersRepository } from '../users-repository'
 
 export class PrismaUsersRepository implements UsersRepository {
-  async findById(id: string) {
-    const user = await prisma.user.findUnique({
-      where: {
-        id,
-      },
-    });
+  async create(data: Prisma.UserCreateInput) {
+    const user = await prisma.user.create({
+      data,
+    })
 
     return user
   }
 
-  async findByEmail(email: string) {
-    const user = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-    });
+  async save(user: Prisma.UserUpdateInput & Prisma.UserWhereUniqueInput) {
+    const updatedUser = await prisma.user.update({
+      where: { id: user.id },
+      data: user,
+    })
 
-    return user;
+    return updatedUser
   }
 
-  async create(data: Prisma.UserCreateInput) {
-    const user = await prisma.user.create({
-      data,
-    });
+  async findByEmail(email: string) {
+    const user = await prisma.user.findUnique({ where: { email } })
 
-    return user;
+    return user
+  }
+
+  async findById(id: string) {
+    const user = await prisma.user.findUnique({ where: { id } })
+
+    return user
   }
 }
